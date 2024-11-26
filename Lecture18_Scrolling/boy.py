@@ -236,7 +236,7 @@ class Boy:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 20, self.y - 50, self.x + 20, self.y + 50
+        return self.x - server.background.window_left - 20, self.y -server.background.window_bottom - 50, self.x - server.background.window_left + 20, self.y - server.background.window_bottom + 50
 
     def handle_collision(self, group, other):
         pass
