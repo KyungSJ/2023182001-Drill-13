@@ -190,6 +190,7 @@ class Boy:
         self.font = load_font('ENCR10B.TTF', 24)
         self.state_machine = StateMachine(self)
         self.state_machine.start(Idle)
+        self.ball_count = 0
         self.state_machine.set_transitions(
             {
                 Idle: {right_down: RunRight, left_down: RunLeft, left_up: RunRight, right_up: RunLeft, upkey_down: RunUp, downkey_down: RunDown, upkey_up: RunDown, downkey_up: RunUp},
@@ -232,13 +233,15 @@ class Boy:
         sx = self.x - server.background.window_left
         sy = self.y - server.background.window_bottom
         self.image.clip_draw(int(self.frame) * 100, self.action * 100, 100, 100, sx, sy)
-        self.font.draw(int(sx - 100), int(sy + 60), f'({self.x:5.5}, {self.y:5.5})', (255, 255, 0))
+        self.font.draw(int(sx - 100), int(sy + 60), f'({self.x:5.5}, {self.y:5.5}) {self.ball_count}', (255, 255, 0))
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - server.background.window_left - 20, self.y -server.background.window_bottom - 50, self.x - server.background.window_left + 20, self.y - server.background.window_bottom + 50
 
     def handle_collision(self, group, other):
+        if group == 'boy:ball':
+            self.ball_count += 1
         pass
 
 

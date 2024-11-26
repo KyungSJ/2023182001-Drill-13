@@ -28,4 +28,6 @@ class Ball:
         return self.x - server.background.window_left - 10, self.y - server.background.window_bottom - 10, self.x - server.background.window_left + 10, self.y - server.background.window_bottom + 10
 
     def handle_collision(self, group, other):
+        if group == 'boy:ball':
+            game_world.remove_object(self)
         pass
