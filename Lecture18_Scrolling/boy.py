@@ -219,19 +219,21 @@ class Boy:
         self.x += math.cos(self.dir) * self.speed * game_framework.frame_time
         self.y += math.sin(self.dir) * self.speed * game_framework.frame_time
 
-        # 월드 기준으로 x,y 위치를 제한할 필요.
 
+        # 월드 기준으로 x,y 위치를 제한할 필요.
+        self.x = clamp(30.0, self.x, server.background.w - 30.0)
+        self.y = clamp(30.0, self.y, server.background.h - 30.0)
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
 
     def draw(self):
         # x,y 는 배경 월드 좌표계를, sx,sy 즉 화면좌표로 변환
-        sx = get_canvas_width() // 2
-        sy = get_canvas_height() // 2
+        sx = self.x - server.background.window_left
+        sy = self.y - server.background.window_bottom
         self.image.clip_draw(int(self.frame) * 100, self.action * 100, 100, 100, sx, sy)
         self.font.draw(int(sx - 100), int(sy + 60), f'({self.x:5.5}, {self.y:5.5})', (255, 255, 0))
-
+        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 20, self.y - 50, self.x + 20, self.y + 50
